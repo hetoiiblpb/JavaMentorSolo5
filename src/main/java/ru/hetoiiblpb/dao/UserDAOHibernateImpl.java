@@ -94,8 +94,9 @@ public class UserDAOHibernateImpl implements UserDAO {
     public boolean updateUser(User user) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(user);
         try {
+        session.update(user);
+            System.out.println(user.toString());
             transaction.commit();
             session.close();
             return true;

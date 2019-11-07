@@ -16,10 +16,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
         @Bean
         ViewResolver viewResolver() {
             InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-            viewResolver.setPrefix("/WEB-INF/admin/");
+            viewResolver.setPrefix("/WEB-INF/");
             viewResolver.setSuffix(".jsp");
             return viewResolver;
         }
+
     }
 
 

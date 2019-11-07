@@ -27,7 +27,7 @@
             <td>
                 <label for="name">Name</label></td>
             <td>
-                <input type="text" name="name" id="name" value="${user.name}">
+                <input type="text" name="name" id="name" value="${user.name}"/>
             </td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
                 <label for="password">Password</label>
             </td>
             <td>
-                <input type="password" name="password" id="password" value="${user.password}">
+                <input type="password" name="password" id="password" value="${user.password}"/>
             </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
         <label for="email">E-mail</label>
             </td>
             <td>
-        <input type="email" name="email" id="email" value="${user.email}">
+        <input type="email" name="email" id="email" value="${user.email}"/>
             </td>
         </tr>
         <tr>
@@ -51,18 +51,20 @@
         <label for="age">Age</label>
             </td>
             <td>
-        <input type="number" name="age" id="age" value="${user.age}">
+        <input type="number" name="age" id="age" value="${user.age}"/>
             </td>
         </tr>
     </table>
-    <c:if test="${empty user.role}">
-    <input type="hidden" name="role" value="user" >
-    </c:if>
-<c:if test="${empty user.name}">
-    <input type="submit" value="Add User">
+<c:if test="${!empty user.name}">
+    <input type="hidden" name="role" value="${user.role}" />
+</c:if>
+    <c:if test="${empty user.name}">
+        <input type="hidden" name="role" value="user" />
+    <input type="submit" value="Add User" />
 </c:if>
     <c:if test="${!empty user.name}">
-        <input type="submit" value="Edit User">
+        ${user.role}
+        <input type="submit" value="Edit User" />
     </c:if>
 </form>
 </body>
