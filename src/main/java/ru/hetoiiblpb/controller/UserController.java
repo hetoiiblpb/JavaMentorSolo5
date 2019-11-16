@@ -101,7 +101,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/helloUser", method = RequestMethod.GET)
+    @GetMapping(value = "/helloUser")
     public ModelAndView helloUser(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         ModelAndView modelAndView = new ModelAndView();
@@ -109,5 +109,14 @@ public class UserController {
         modelAndView.setViewName("helloUser");
         modelAndView.addObject("user", user);
         return  modelAndView;
+    }
+
+    @PostMapping(value = "/helloUser")
+    public ModelAndView logout(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        modelAndView.setViewName("redirect:/login");
+        return modelAndView;
     }
 }
