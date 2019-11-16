@@ -101,6 +101,23 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/registration")
+    public ModelAndView registrationPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("registration");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/registration")
+    public ModelAndView registration(@ModelAttribute("user") User user, HttpServletRequest request) throws DBException {
+        ModelAndView modelAndView = new ModelAndView();
+        userService.addUser(user);
+        HttpSession httpSession = request.getSession(true);
+        httpSession.setAttribute("userSession", user);
+        modelAndView.setViewName("redirect:/helloUser");
+        return modelAndView;
+    }
+
     @GetMapping(value = "/helloUser")
     public ModelAndView helloUser(HttpServletRequest request){
         HttpSession session = request.getSession(false);
