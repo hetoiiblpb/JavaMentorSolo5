@@ -12,7 +12,7 @@ public interface UserDAO {
             DBHelper.getProperties().getProperty("adminPass", "defPass"),
             DBHelper.getProperties().getProperty("adminEmail", "defMail@mail.ru"),
             Long.parseLong(DBHelper.getProperties().getProperty("adminAge", "300")),
-            "admin");
+            "ROLE_ADMIN");
 
     <T> List<T> getAllUsers() throws SQLException;
 
@@ -27,5 +27,7 @@ public interface UserDAO {
     boolean updateUser(User user) throws SQLException;
 
     User getUserById(Long id) throws SQLException, DBException;
+
+    User getUserByName(String name) throws SQLException, DBException;
 
 }

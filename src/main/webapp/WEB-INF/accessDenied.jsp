@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo5- Hello, ${user.username} !</title>
+    <title>Access Denied!!!</title>
 </head>
 <body>
-Hello , ${user.username}!
+Sorry, ${user.username}, your status is ${user.role} and you cant visit this page!
 <br>
-<form action="/helloUser" method="post">
-    <input type="submit" value="Выйти">
+<form action="/helloUser" method="get">
+    <input type="submit" value="назад">
 </form>
 </body>
 </html>

@@ -10,13 +10,13 @@
 <form action="${var}" method="POST">
 
     <table>
-        <c:if test="${!empty user.name}">
-            <tr>
-                <td>Id</td>
-                </td>
-                <td><input type="hidden" name="id" value="${user.id}">${user.id}</td>
-            </tr>
-        </c:if>
+        <%--        <c:if test="${!empty user.name}">--%>
+        <%--            <tr>--%>
+        <%--                <td>Id</td>--%>
+        <%--                </td>--%>
+        <%--                <td><input type="hidden" name="id" value="${user.id}">${user.id}</td>--%>
+        <%--            </tr>--%>
+        <%--        </c:if>--%>
         <tr>
             <td>
                 <label for="name">Name</label></td>
@@ -53,11 +53,10 @@
         <input type="hidden" name="role" value="${user.role}"/>
     </c:if>
     <c:if test="${empty user.name}">
-        <input type="hidden" name="role" value="user"/>
+        <input type="hidden" name="role" value=""/>
         <input type="submit" value="Add User"/>
     </c:if>
     <c:if test="${!empty user.name}">
-        ${user.role}
         <input type="submit" value="Edit User"/>
     </c:if>
 </form>

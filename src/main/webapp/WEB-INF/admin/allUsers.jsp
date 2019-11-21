@@ -26,7 +26,7 @@
             <td>${user.role}</td>
             <td>
                 <a href="/admin/updateUser/${user.id}">Edit</a>
-                <c:if test="${!user.role.equals('admin')}">
+                <c:if test="${!user.role.equals('ROLE_ADMIN')}">
                 <a href="/admin/deleteUser/${user.id}">Delete</a>
                 </c:if>
             </td>

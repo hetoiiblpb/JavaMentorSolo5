@@ -1,26 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
-    <c:if test="${empty user.name}">
+    <c:if test="${empty user}">
         <title>Add</title>
     </c:if>
-    <c:if test="${!empty user.name}">
+    <c:if test="${!empty user}">
         <title>Edit</title>
     </c:if>
 </head>
 <body>
-<c:if test="${empty user.name}">
+<c:if test="${empty user.username}">
     <c:url value="/admin/addUser" var="var"/>
 </c:if>
-<c:if test="${!empty user.name}">
+<c:if test="${!empty user.username}">
     <c:url value="/admin/updateUser/" var="var"/>
 </c:if>
 <form action="${var}" method="POST">
 
     <table>
-        <c:if test="${!empty user.name}">
+        <c:if test="${!empty user}">    <%-- TODO не работает добавление пользователя админом --%>
             <tr><td>Id</td></td><td><input type="hidden" name="id" value="${user.id}">${user.id}</td></tr>
         </c:if>
         <tr>
@@ -55,15 +55,14 @@
             </td>
         </tr>
     </table>
-<c:if test="${!empty user.name}">
+    <c:if test="${!empty user}">
     <input type="hidden" name="role" value="${user.role}" />
 </c:if>
-    <c:if test="${empty user.name}">
-        <input type="hidden" name="role" value="user" />
+    <c:if test="${empty user}">
+        <input type="hidden" name="role" value=""/>
     <input type="submit" value="Add User" />
 </c:if>
-    <c:if test="${!empty user.name}">
-        ${user.role}
+    <c:if test="${!empty user}">
         <input type="submit" value="Edit User" />
     </c:if>
 </form>

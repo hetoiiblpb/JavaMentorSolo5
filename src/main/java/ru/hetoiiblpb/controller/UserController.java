@@ -1,14 +1,12 @@
 package ru.hetoiiblpb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.hetoiiblpb.exception.DBException;
 import ru.hetoiiblpb.model.User;
 import ru.hetoiiblpb.service.UserService;
-import ru.hetoiiblpb.service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,7 +67,7 @@ public class UserController {
     }
 
     @RequestMapping(value="/admin/deleteUser/{id}", method = RequestMethod.GET)
-    public ModelAndView deleteFilm(@PathVariable("id") Long id) throws DBException {
+    public ModelAndView deleteUser(@PathVariable("id") Long id) throws DBException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin");
         userService.deleteUser(id);
@@ -83,23 +81,6 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, HttpServletRequest request) throws DBException {
-        ModelAndView modelAndView = new ModelAndView();
-        User user = userService.verifyUserPassword(name, password);
-        if (user != null) {
-            HttpSession httpSession = request.getSession(true);
-            httpSession.setAttribute("userSession",user);
-            if (user.getRole().equals("admin")) {
-                modelAndView.setViewName("redirect:/admin");
-            } else {
-                modelAndView.setViewName("redirect:/helloUser");
-            }
-        } else {
-            modelAndView.setViewName("redirect:/login");
-        }
-        return modelAndView;
-    }
 
     @GetMapping(value = "/registration")
     public ModelAndView registrationPage() {
@@ -111,9 +92,13 @@ public class UserController {
     @PostMapping(value = "/registration")
     public ModelAndView registration(@ModelAttribute("user") User user, HttpServletRequest request) throws DBException {
         ModelAndView modelAndView = new ModelAndView();
+        if (user.getRole().equals("")) {
+            user.setRole("ROLE_USER");
+        }
         userService.addUser(user);
         HttpSession httpSession = request.getSession(true);
         httpSession.setAttribute("userSession", user);
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("redirect:/helloUser");
         return modelAndView;
     }
@@ -134,6 +119,14 @@ public class UserController {
         HttpSession session = request.getSession(false);
         session.invalidate();
         modelAndView.setViewName("redirect:/login");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/accessDenied")
+    public ModelAndView accessDenied(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        HttpSession session = request.getSession(false);
+        modelAndView.setViewName("accessDenied");
         return modelAndView;
     }
 }

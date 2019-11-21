@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo4-Authorization</title>
+    <title>Solo5-Authorization</title>
 </head>
 <body>
 <h1>Авторизация</h1>
@@ -12,7 +12,7 @@
     <table style=" width: 10%; border: 4px double black;">
         <tr>
             <td>Логин</td>
-            <td><input name="name" type="text" value="${name}" required/></td>
+            <td><input name="username" type="text" value="${name}" required/></td>
         </tr>
         <tr>
             <td> Пароль</td>

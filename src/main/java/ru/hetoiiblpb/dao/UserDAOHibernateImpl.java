@@ -1,5 +1,7 @@
 package ru.hetoiiblpb.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.hetoiiblpb.model.User;
 import org.hibernate.Session;
@@ -14,17 +16,21 @@ import java.util.List;
 public class UserDAOHibernateImpl implements UserDAO {
     private static UserDAOHibernateImpl instance;
     private static SessionFactory sessionFactory;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private UserDAOHibernateImpl(SessionFactory sessionFactory) throws SQLException {
+    @Autowired
+    private UserDAOHibernateImpl(SessionFactory sessionFactory,
+                                 BCryptPasswordEncoder bCryptPasswordEncoder) throws SQLException {
         this.sessionFactory = sessionFactory;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         if (checkUserByEmail(admin.getEmail())) {
             addUser(admin);
         }
     }
 
-    public static UserDAOHibernateImpl getInstance(SessionFactory sessionFactory) throws SQLException {
+    public static UserDAOHibernateImpl getInstance(SessionFactory sessionFactory, BCryptPasswordEncoder bCryptPasswordEncoder) throws SQLException {
         if (instance == null) {
-            instance = new UserDAOHibernateImpl(sessionFactory);
+            instance = new UserDAOHibernateImpl(sessionFactory, bCryptPasswordEncoder);
         }
         return instance;
     }
@@ -42,6 +48,8 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public boolean addUser(User user) throws SQLException {
+        user.setPassword(bCryptPasswordEncoder.encode(
+                user.getPassword()));
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(user);
@@ -88,10 +96,31 @@ public class UserDAOHibernateImpl implements UserDAO {
             session.close();
             return null;
         }
+
+    }
+
+    @Override
+    public User getUserByName(String name) throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from User where name =:param");
+        query.setParameter("param", name);
+        User user = (User) query.getSingleResult();
+        try {
+            transaction.commit();
+            session.close();
+            return user;
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+            return null;
+        }
     }
 
     @Override
     public boolean updateUser(User user) throws SQLException {
+        user.setPassword(bCryptPasswordEncoder.encode(
+                user.getPassword()));
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
