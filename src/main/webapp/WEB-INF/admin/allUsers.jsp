@@ -33,7 +33,9 @@
         </tr>
     </c:forEach>
 </table>
-<c:url value="/admin/addUser" var="add"/>
-<a href="${add}">Add new User</a>
+<%--<c:url value="/admin/addUser" var="add"/>--%>
+<form action="/admin/addUser" method="get">
+    <input type="submit" value="Add new User"/>
+</form>
 </body>
 </html>

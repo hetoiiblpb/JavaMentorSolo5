@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/addUser", method = RequestMethod.GET)
-    public ModelAndView addPage() {
+    public ModelAndView addPage(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/editPage");
         return modelAndView;
@@ -60,6 +60,9 @@ public class UserController {
     @RequestMapping(value = "/admin/addUser", method = RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("user") User user) throws DBException {
         ModelAndView modelAndView = new ModelAndView();
+        if (user.getRole().equals("")) {
+            user.setRole("ROLE_USER");
+        }
         if (userService.addUser(user)) {
             modelAndView.setViewName("redirect:/admin");
         }

@@ -3,24 +3,24 @@
 
 <html>
 <head>
-    <c:if test="${empty user}">
+    <c:if test="${empty user.name}">
         <title>Add</title>
     </c:if>
-    <c:if test="${!empty user}">
+    <c:if test="${!empty user.name}">
         <title>Edit</title>
     </c:if>
 </head>
 <body>
-<c:if test="${empty user.username}">
+<c:if test="${empty user.name}">
     <c:url value="/admin/addUser" var="var"/>
 </c:if>
-<c:if test="${!empty user.username}">
+<c:if test="${!empty user.name}">
     <c:url value="/admin/updateUser/" var="var"/>
 </c:if>
 <form action="${var}" method="POST">
 
     <table>
-        <c:if test="${!empty user}">    <%-- TODO не работает добавление пользователя админом --%>
+        <c:if test="${!empty user.name}">
             <tr><td>Id</td></td><td><input type="hidden" name="id" value="${user.id}">${user.id}</td></tr>
         </c:if>
         <tr>
@@ -55,14 +55,14 @@
             </td>
         </tr>
     </table>
-    <c:if test="${!empty user}">
+    <c:if test="${!empty user.role}">
     <input type="hidden" name="role" value="${user.role}" />
 </c:if>
-    <c:if test="${empty user}">
+    <c:if test="${empty user.role}">
         <input type="hidden" name="role" value=""/>
     <input type="submit" value="Add User" />
 </c:if>
-    <c:if test="${!empty user}">
+    <c:if test="${!empty user.name}">
         <input type="submit" value="Edit User" />
     </c:if>
 </form>
