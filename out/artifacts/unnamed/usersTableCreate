@@ -1,0 +1,11 @@
+-- auto-generated definition
+create table users
+(
+    id       int auto_increment
+        primary key,
+    name     varchar(255) not null,
+    role     varchar(5)   null,
+    password varchar(255) not null,
+    mail     varchar(255) not null,
+    age      bigint(200)  null
+);
